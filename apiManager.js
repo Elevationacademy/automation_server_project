@@ -1,5 +1,4 @@
 const request = require('request-promise');
-const axios = require('axios');
 
 class ApiManager {
   constructor() {}
@@ -20,7 +19,7 @@ class ApiManager {
   }
 
   // Recieve id (number), name (string), type (string), height (number), weight (number)
-  // Return an object with a key of "status" (status code) and a key of "body" (array of objects with the filtered pokemons)
+  // Return an object with a key of "status" (status code) and a key of "body" (a message)
   async postPokemon(id, name, type, height, weight) {
     let response = {};
     await request.post(
@@ -36,7 +35,7 @@ class ApiManager {
 
   // Recieve type ("id" / "name" / "type" / "height" / "weight"), value (number or string) - and find ONE pokemon that has those attributes
   // Recieve changedType ("id" / "name" / "type" / "height" / "weight"), changedValue (number or string) - and change that attribute for the poken that was found
-  // Return an object with a key of "status" (status code) and a key of "body" (array of objects with the filtered pokemons)
+  // Return an object with a key of "status" (status code) and a key of "body" (a message)
   async putPokemon(type, value, changedType, changedValue) {
     let response = {};
     await request.put(
@@ -51,7 +50,7 @@ class ApiManager {
   }
 
   // Recieve type ("id" / "name" / "type" / "height" / "weight") and value (number or string) and delete the pokemon
-  // Return an object with a key of "status" (status code) and a key of "body" (array of objects with the filtered pokemons)
+  // Return an object with a key of "status" (status code) and a key of "body" (a message)
   async deletePokemon(type, value) {
     let response = {};
     await request.delete('http://localhost:3000/pokemon', { form: { type, value } }, function(
