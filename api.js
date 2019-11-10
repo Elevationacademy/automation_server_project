@@ -22,6 +22,7 @@ router.put('/pokemon', function (req, res) {
   let type = req.body.type;
   let changedType = req.body.changedType;
   let changedValue = req.body.changedValue;
+  let entirety = type && value && changedType && changedValue
   if (type === "id" || type === "height" || type === "weight") {
     value = Number(value)
   }
@@ -29,11 +30,15 @@ router.put('/pokemon', function (req, res) {
     changedValue = Number(changedValue)
   }
   let result = pokemonDB.find(p => p[type] === value)
-  if (result) {
+  if (result && entirety) {
     result[changedType] = changedValue
     res.send(`A pokemon with ${type} of ${value} was changed. His ${changedType} was changed to ${changedValue}`)
   } else {
-    res.send(`A pokemon with ${type} of ${value} was not found`)
+    if (!entirety) {
+      res.send('Some details are missing')
+    } else {
+      res.send(`A pokemon with ${type} of ${value} was not found`)
+    }
   }
 })
 
