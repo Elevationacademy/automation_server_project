@@ -61,7 +61,8 @@ router.delete('/pokemon', function (req, res) {
     value = Number(value)
   }
   let index = pokemonDB.findIndex(p => p[type] === value)
-  if (index) {
+
+  if (index >= 0) {
     pokemonDB.splice(index, 1)
     res.send(`A pokemon with ${type} of ${value} was deleted`)
   } else {
