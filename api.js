@@ -15,6 +15,7 @@ router.get('/pokemon', function (req, res) {
   res.send(result)
 })
 
+
 // PUT
 router.put('/pokemon', function (req, res) {
   let value = req.body.value;
@@ -36,20 +37,25 @@ router.put('/pokemon', function (req, res) {
   }
 })
 
+
 // POST
 router.post('/pokemon', function (req, res) {
   let id = Number(req.body.id);
-  let name = req.body.name;
-  let type = req.body.type;
-  let height = Number(req.body.height);
+  let name = String(req.body.name);
+  let type = String(req.body.type);
+  height = Number(req.body.height);
   let weight = Number(req.body.weight);
   let idCheck = pokemonDB.find(p => p.id === id)
-
+  let entirety = id && name && type && height && weight
   if (idCheck) {
-    res.send(`A pokemon with id of ${id} The id is already exist`)
+    res.send(`A pokemon with id of ${id} is already exist`)
   } else {
-    pokemonDB.push({ id, name, type, height, weight })
-    res.send(`A new pokemon with id of ${id} was added:\nName: ${name} ; Type: ${type} ; Height: ${height} ; Weight: ${weight}`)
+    if (entirety) {
+      pokemonDB.push({ id, name, type, height, weight })
+      res.send(`A new pokemon with id of ${id} was added--->  Name: ${name} ; Type: ${type} ; Height: ${height} ; Weight: ${weight}`)
+    } else {
+        res.send(`One or more of the details are missing or invalid`)
+    }
   }
 })
 
